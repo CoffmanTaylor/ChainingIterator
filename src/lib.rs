@@ -3,6 +3,7 @@
 use std::collections::VecDeque;
 
 /// A chain of iterators with type I.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct IterChain<I> {
     iters: VecDeque<I>,
 }
