@@ -49,6 +49,26 @@ where
     }
 }
 
+impl<I> DoubleEndedIterator for IterChain<I>
+where
+    I: DoubleEndedIterator,
+{
+    fn next_back(&mut self) -> Option<Self::Item> {
+        loop {
+            if let Some(iter) = self.iters.get_mut(self.iters.len() - 1) {
+                let val = iter.next_back();
+                if val.is_some() {
+                    return val;
+                } else {
+                    self.iters.pop_back();
+                }
+            } else {
+                return None;
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use std::ops::Range;
@@ -91,5 +111,16 @@ mod tests {
         assert_eq!(Some(0), i.next());
         assert_eq!(Some(2), i.next());
         assert_eq!(None, i.next());
+    }
+
+    #[test]
+    fn double_ended_iter() {
+        let mut i = IterChain::new();
+
+        i.include(0..3);
+        i.include(5..7);
+
+        assert_eq!(Some(0), i.next());
+        assert_eq!(Some(6), i.next_back());
     }
 }
