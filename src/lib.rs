@@ -25,6 +25,22 @@ impl<I> IterChain<I> {
     {
         self.iters.push_back(new_iter);
     }
+
+    /// Include the given iterator at the front of the chain.
+    ///
+    /// ```
+    /// let mut i = chaining_iter::IterChain::new();
+    /// i.include(3..5);
+    /// i.include_front(0..3);
+    ///
+    /// assert_eq!(Some(0), i.next());
+    /// ```
+    pub fn include_front(&mut self, new_iter: I)
+    where
+        I: Iterator,
+    {
+        self.iters.push_front(new_iter);
+    }
 }
 
 impl<I> Iterator for IterChain<I>
@@ -35,7 +51,7 @@ where
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            if let Some(iter) = self.iters.get_mut(0) {
+            if let Some(iter) = self.iters.front_mut() {
                 let val = iter.next();
                 if val.is_some() {
                     return val;
@@ -55,7 +71,7 @@ where
 {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            if let Some(iter) = self.iters.get_mut(self.iters.len() - 1) {
+            if let Some(iter) = self.iters.back_mut() {
                 let val = iter.next_back();
                 if val.is_some() {
                     return val;
