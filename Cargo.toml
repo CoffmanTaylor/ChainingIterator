@@ -3,6 +3,8 @@ name = "chaining-iter"
 version = "0.1.0"
 authors = ["Taylor Coffman <CoffmanTaylor96+git@gmail.com>"]
 edition = "2018"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/CoffmanTaylor/ChainingIterator.git"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
